@@ -1,17 +1,34 @@
 model_list:
-  - model_name: gpt-3.5-turbo
+  # 1. GLM 5.2
+  - model_name: glm
     litellm_params:
       model: nvidia_nim/z-ai/glm-5.2
       api_key: os.environ/NVIDIA_NIM_API_KEY
       max_tokens: 4096
-      # 🔥 FORCING TO FALSE: Overrides whatever Janitor AI sends in the background
-      logprobs: false
+      # This completely blocks the parameters GLM 5.2 hates from ever reaching NVIDIA
+      additional_drop_params: ["logprobs", "top_logprobs", "presence_penalty", "frequency_penalty"]
+      
+  # 2. DeepSeek Flash
+  - model_name: deepseek
+    litellm_params:
+      model: nvidia_nim/deepseek-ai/deepseek-v4-flash
+      api_key: os.environ/NVIDIA_NIM_API_KEY
+      max_tokens: 16384
+      
+  # 3. MiniMax M3
+  - model_name: minimax
+    litellm_params:
+      model: nvidia_nim/minimaxai/minimax-m3
+      api_key: os.environ/NVIDIA_NIM_API_KEY
+      max_tokens: 16384
 
-  - model_name: gpt-4
+  # 4. StepFun Flash
+  - model_name: stepfun
     litellm_params:
       model: nvidia_nim/stepfun-ai/step-3.7-flash
       api_key: os.environ/NVIDIA_NIM_API_KEY
       max_tokens: 16384
 
 litellm_settings:
+  # Automatically sanitizes general junk parameters for all 4 models
   drop_params: true
