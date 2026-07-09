@@ -15,12 +15,15 @@ model_list:
       api_key: os.environ/NVIDIA_NIM_API_KEY
       max_tokens: 16384
       
-  # 3. MiniMax M3
+    # 3. MiniMax M3
   - model_name: minimax
     litellm_params:
       model: nvidia_nim/minimaxai/minimax-m3
       api_key: os.environ/NVIDIA_NIM_API_KEY
       max_tokens: 16384
+      # 🔥 THE FIX: Block the same crash-causing parameters for MiniMax
+      additional_drop_params: ["logprobs", "top_logprobs", "presence_penalty", "frequency_penalty"]
+
 
   # 4. StepFun Flash
   - model_name: stepfun
