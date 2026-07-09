@@ -1,3 +1,8 @@
-FROM ghcr.io/berriai/litellm:main-latest
-COPY config.yaml /app/config.yaml
-CMD ["--port", "10000", "--config", "/app/config.yaml", "--num_workers", "1"]
+model_list:
+  - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: nvidia_nim/z-ai/glm-5.2
+      api_key: os.environ/NVIDIA_NIM_API_KEY
+
+litellm_settings:
+  drop_params: true
