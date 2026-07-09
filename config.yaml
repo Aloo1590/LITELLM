@@ -1,18 +1,3 @@
-model_list:
-  # When Janitor requests "gpt-3.5-turbo", LiteLLM intercepts it...
-  - model_name: gpt-3.5-turbo 
-    litellm_params:
-      # ...and quietly routes it to NVIDIA NIM's GLM model instead.
-      model: nvidia_nim/z-ai/glm-5.2
-      api_key: os.environ/NVIDIA_NIM_API_KEY
-
-  # You can add fallbacks or other models exactly like this:
-  - model_name: gpt-4
-    litellm_params:
-      model: nvidia_nim/meta/llama-3.1-70b-instruct
-      api_key: os.environ/NVIDIA_NIM_API_KEY
-
-litellm_settings:
-  # THIS IS THE MAGIC SETTING. 
-  # It strips Janitor's incompatible parameters so GLM doesn't crash.
-  drop_params: true
+FROM ghcr.io/berriai/litellm:main-latest
+COPY config.yaml /app/config.yaml
+CMD ["--port", "10000", "--config", "/app/config.yaml", "--num_workers", "1"]
