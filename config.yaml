@@ -1,8 +1,17 @@
 model_list:
+  # Your existing GLM 5.2 mapping
   - model_name: gpt-3.5-turbo
     litellm_params:
       model: nvidia_nim/z-ai/glm-5.2
       api_key: os.environ/NVIDIA_NIM_API_KEY
 
+  # NEW: Mapping gpt-4 to the StepFun model
+  - model_name: gpt-4
+    litellm_params:
+      model: nvidia_nim/stepfun-ai/step-3.7-flash
+      api_key: os.environ/NVIDIA_NIM_API_KEY
+      max_tokens: 16384   # Set the max tokens from the StepFun spec
+
 litellm_settings:
+  # This stays active to ensure Janitor's junk parameters are dropped for BOTH models
   drop_params: true
